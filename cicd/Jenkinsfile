@@ -16,9 +16,18 @@ pipeline {
                  sh "npm install"
              }
         }
-        stage('start') {
+        stage('dockerbuild') {
             steps {
-                sh "npm start&"
+                sh "docker build . -t nodehello:${BUILD_NUMBER}"
+            }
+        }
+        stage('dockerpush'){
+            steps{
+                script{
+                    withDockerRegistry(credentialsId: 'dockerregistry') {
+                        docker.image().push()
+                    }
+                }
             }
         }
        
