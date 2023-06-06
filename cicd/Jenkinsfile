@@ -18,14 +18,14 @@ pipeline {
         }
         stage('dockerbuild') {
             steps {
-                sh "docker build . -t nodehello:${BUILD_NUMBER}"
+                sh "docker build . -t saikrishnavydha/nodehello:${BUILD_NUMBER}"
             }
         }
         stage('dockerpush'){
             steps{
                 script{
                     withDockerRegistry(credentialsId: 'dockerregistry') {
-                        docker.image().push()
+                       sh "docker push saikrishnavydha/nodehello:${BUILD_NUMBER}"
                     }
                 }
             }
